@@ -1,9 +1,11 @@
-# Matreshka.js TodoMVC
+# Matreshka.js TodoMVC с комментариями на русском
+
+[In English](https://github.com/matreshkajs/matreshka_todomvc)
 
 [![Dependency Status](https://img.shields.io/david/matreshkajs/matreshka_todomvc.svg)](https://david-dm.org/matreshkajs/matreshka_todomvc)
 
 ![](https://raw.githubusercontent.com/tastejs/todomvc-app-css/master/screenshot.png)
 
-[Живой пример](http://matreshkajs.github.io/matreshka_todomvc/)
+[Живой пример](http://finom.github.io/matreshka_todomvc_ru/)
 
-[Исходник с аннотациями](http://matreshkajs.github.io/matreshka_todomvc/docs/app.html)
+[Исходник с аннотациями](http://finom.github.io/matreshka_todomvc_ru/docs/app.html)
