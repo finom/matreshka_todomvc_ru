@@ -68,7 +68,7 @@ var Todo = Class({
 					}
 				}
 			})
-			// Если кликнуть по элементу, отвечающему за удаление пункта, удаляем элемент из родительского списка ``Todos`` методом [pull](http://ru.matreshka.io/#!Matreshka.Array-pull).
+			// Если кликнуть по элементу, отвечающему за удаление пункта, удаляем его из родительского списка ``Todos`` методом [pull](http://ru.matreshka.io/#!Matreshka.Array-pull).
 			.on('click::destroy', function() {
 				this.parent.pull(this);
 			});
