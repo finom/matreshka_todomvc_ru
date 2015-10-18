@@ -245,12 +245,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>Если кликнуть по элементу, отвечающему за удаление пункта, вызываем событие <code>readytodie</code>, которое слушается классом <code>Todos</code>.</p>
+              <p>Если кликнуть по элементу, отвечающему за удаление пункта, удаляем элемент из родительского списка <code>Todos</code> методом <a href="http://ru.matreshka.io/#!Matreshka.Array-pull">pull</a>.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>			.on(<span class="hljs-string">'click::destroy'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-				<span class="hljs-keyword">this</span>.trigger(<span class="hljs-string">'readytodie'</span>, <span class="hljs-keyword">this</span>);
+				<span class="hljs-keyword">this</span>.parent.pull(<span class="hljs-keyword">this</span>);
 			});
 	}
 });</pre></div></div>

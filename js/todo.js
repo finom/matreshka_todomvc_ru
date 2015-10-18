@@ -68,9 +68,9 @@ var Todo = Class({
 					}
 				}
 			})
-			// Если кликнуть по элементу, отвечающему за удаление пункта, вызываем событие ``readytodie``, которое слушается классом ``Todos``.
+			// Если кликнуть по элементу, отвечающему за удаление пункта, удаляем элемент из родительского списка ``Todos`` методом [pull](http://ru.matreshka.io/#!Matreshka.Array-pull).
 			.on('click::destroy', function() {
-				this.trigger('readytodie', this);
+				this.parent.pull(this);
 			});
 	}
 });
