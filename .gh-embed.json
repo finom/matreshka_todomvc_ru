@@ -3,6 +3,6 @@
 	"embed": [{
 		"type": "htmlpage",
 		"label": "Result",
-		"url": "http://finom.github.io/matreshka_todomvc_ru/"
+		"url": "//finom.github.io/matreshka_todomvc_ru/"
 	}]
 }
