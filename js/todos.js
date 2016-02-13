@@ -12,20 +12,12 @@ var Todos = Class({
 			.linkProps('leftLength', 'length completedLength', function(length, completedLength) {
 				return length - completedLength;
 			})
-			// Метод ``"bindings"`` добавляет привязки между свойствами экземпляра класса и DOM элементами. Метод ``"events"``, как можно догадаться, добавляет обработчики событий. Эти имена методов не являются специальными, они группируют разные действия для чистоты кода. После их вызова, вынимаем данные из локального хранилища и создаем из него элементы todo с помощью метода [recreate](http://ru.matreshka.io/#Matreshka.Array-recreate).
+			// Метод ``"bindings"`` добавляет привязки между свойствами экземпляра класса и DOM элементами. Метод ``"events"``, как можно догадаться, добавляет обработчики событий. Эти имена методов не являются специальными, они группируют разные действия для чистоты кода. После их вызова, вынимаем данные из локального хранилища и создаем из него элементы todo с помощью метода [recreate](http://ru.matreshka.io/#Matreshka.Array-recreate). Затем, инициализируем роутер.
 			.bindings()
 			.events()
-			.recreate(JSON.parse(localStorage['todos-matreshka'] || '[]'));
+			.recreate(JSON.parse(localStorage['todos-matreshka'] || '[]'))
+			.initRouter('/state/');
 
-		// Мы используем библиотеку для роутинга [director](https://github.com/flatiron/director), как того требует спецификация TodoMVC. Когда ``location.hash`` меняется, его значение присваивается свойству ``"route"``.
-		Router({
-			':state': function(state) {
-				self.route = state;
-			},
-			'': function() {
-				self.route = '';
-			}
-		}).init();
 	},
 	bindings: function() {
 		var binders = MK.binders;
@@ -53,12 +45,12 @@ var Todos = Class({
 					$(this).html('<strong>' + v + '</strong> item' + (v !== 1 ? 's' : '') + ' left');
 				}
 			})
-			// Эта привязка контролирует, какая именно ссылка ("All", "Active", "Completed") будет выделена жирным шрифтом. Здесь использован небольшой приём для демонстрации работы ``bindNode``: элемент ``#filters`` связываем со свойством ``"route"``, но в привязчике манипулируем ссылками внутри этого элемента.
-			.bindNode('route', '.filters', {
+			// Эта привязка контролирует, какая именно ссылка ("All", "Active", "Completed") будет выделена жирным шрифтом. Здесь использован небольшой приём для демонстрации работы ``bindNode``: элемент ``#filters`` связываем со свойством ``"state"``, но в привязчике манипулируем ссылками внутри этого элемента.
+			.bindNode('state', '.filters', {
 				setValue: function(v) {
 					$(this).find('a').each(function() {
 						var $this = $(this);
-						$this.toggleClass('selected', $this.attr('href') === '#/' + v);
+						$this.toggleClass('selected', $this.attr('href') === '#!/' + v);
 					});
 				}
 			});
@@ -116,15 +108,15 @@ var Todos = Class({
 			.on('modify *@change:completed change:allCompleted', function() {
 				this.JSON = JSON.stringify(this);
 			})
-			// Следующие строки контролируют, как видимость пунктов списка дел контролируется ``location.hash`` (или свойства ``"route"``). Эта часть может быть реализована несколькими способами. Здесь выбран способ добавления зависимостей одного свойства от других, используя метод  [linkProps](http://ru.matreshka.io/#Matreshka-linkProps). Что здесь происходит? Мы слушаем событие ``"addone"``, срабатывающее, когда новый пункт добавляется в список дел. Обработчик события получает объект (``evt``) в качестве аргумента, который содержит свойство ``"added"``, являющеесяя добавленным пунктом. Мы добавляем зависимость свойства ``"visible"`` для добавленного пункта от ``todos.route`` и от собственного свойства ``"completed"``.
+			// Следующие строки контролируют, как видимость пунктов списка дел контролируется ``location.hash`` (или свойства ``"state"``). Эта часть может быть реализована несколькими способами. Здесь выбран способ добавления зависимостей одного свойства от других, используя метод  [linkProps](http://ru.matreshka.io/#Matreshka-linkProps). Что здесь происходит? Мы слушаем событие ``"addone"``, срабатывающее, когда новый пункт добавляется в список дел. Обработчик события получает объект (``evt``) в качестве аргумента, который содержит свойство ``"added"``, являющеесяя добавленным пунктом. Мы добавляем зависимость свойства ``"visible"`` для добавленного пункта от ``todos.state`` и от собственного свойства ``"completed"``.
 			.on('addone', function(evt) {
 				var todo = evt.added;
 
 				todo.linkProps('visible', [
 					todo, 'completed',
-					this, 'route'
-				], function(completed, route) {
-					return !route || route === 'completed' && completed || route === 'active' && !completed;
+					this, 'state'
+				], function(completed, state) {
+					return !state || state === 'completed' && completed || state === 'active' && !completed;
 				});
 			});
 	}
