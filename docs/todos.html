@@ -59,7 +59,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-pi">"use strict"</span>;
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">"use strict"</span>;
 <span class="hljs-keyword">var</span> Todos = Class({
 	<span class="hljs-string">'extends'</span>: MK.Array,</pre></div></div>
             
@@ -92,7 +92,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>	itemRenderer: <span class="hljs-string">'#todo_item_template'</span>,
-	constructor: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+	<span class="hljs-keyword">constructor</span>: function() {
 		<span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span></pre></div></div>
             
         </li>
@@ -121,13 +121,19 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Метод <code>&quot;bindings&quot;</code> добавляет привязки между свойствами экземпляра класса и DOM элементами. Метод <code>&quot;events&quot;</code>, как можно догадаться, добавляет обработчики событий. Эти имена методов не являются специальными, они группируют разные действия для чистоты кода. После их вызова, вынимаем данные из локального хранилища и создаем из него элементы todo с помощью метода <a href="http://ru.matreshka.io/#Matreshka.Array-recreate">recreate</a>.</p>
+              <p>Метод <code>&quot;bindings&quot;</code> добавляет привязки между свойствами экземпляра класса и DOM элементами. Метод <code>&quot;events&quot;</code>, как можно догадаться, добавляет обработчики событий. Эти имена методов не являются специальными, они группируют разные действия для чистоты кода. После их вызова, вынимаем данные из локального хранилища и создаем из него элементы todo с помощью метода <a href="http://ru.matreshka.io/#Matreshka.Array-recreate">recreate</a>. Затем, инициализируем роутер.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>			.bindings()
 			.events()
-			.recreate(<span class="hljs-built_in">JSON</span>.parse(localStorage[<span class="hljs-string">'todos-matreshka'</span>] || <span class="hljs-string">'[]'</span>));</pre></div></div>
+			.recreate(<span class="hljs-built_in">JSON</span>.parse(localStorage[<span class="hljs-string">'todos-matreshka'</span>] || <span class="hljs-string">'[]'</span>))
+			.initRouter(<span class="hljs-string">'/state/'</span>);
+
+	},
+	bindings: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+		<span class="hljs-keyword">var</span> binders = MK.binders;
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span></pre></div></div>
             
         </li>
         
@@ -138,32 +144,6 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>Мы используем библиотеку для роутинга <a href="https://github.com/flatiron/director">director</a>, как того требует спецификация TodoMVC. Когда <code>location.hash</code> меняется, его значение присваивается свойству <code>&quot;route&quot;</code>.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>		Router({
-			<span class="hljs-string">':state'</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state</span>) </span>{
-				self.route = state;
-			},
-			<span class="hljs-string">''</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-				self.route = <span class="hljs-string">''</span>;
-			}
-		}).init();
-	},
-	bindings: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-		<span class="hljs-keyword">var</span> binders = MK.binders;
-		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
               <p>Объявляем песочницу</p>
 
             </div>
@@ -173,11 +153,11 @@
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Привязываем несколько других элементов (main, footer и т. д.). Селектор <code>:sandbox</code> не используется потому что мы обращаемся к элементам по ID.</p>
 
@@ -195,11 +175,11 @@
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Следующий вызов <a href="http://ru.matreshka.io/#Matreshka-bindNode">bindNode</a> делает видимость элементов зависимым от значений соответствующих свойств (если значение проходит не-строгую проверку на равенство <code>true</code>, элемент будет показан, иначе - спрятан).</p>
 
@@ -213,11 +193,11 @@
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Следующие две привязки меняют HTML привязанных элементов в зависимости от значения соответствующего свойства.</p>
 
@@ -233,21 +213,21 @@
         </li>
         
         
-        <li id="section-11">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>Эта привязка контролирует, какая именно ссылка (“All”, “Active”, “Completed”) будет выделена жирным шрифтом. Здесь использован небольшой приём для демонстрации работы <code>bindNode</code>: элемент <code>#filters</code> связываем со свойством <code>&quot;route&quot;</code>, но в привязчике манипулируем ссылками внутри этого элемента.</p>
+              <p>Эта привязка контролирует, какая именно ссылка (“All”, “Active”, “Completed”) будет выделена жирным шрифтом. Здесь использован небольшой приём для демонстрации работы <code>bindNode</code>: элемент <code>#filters</code> связываем со свойством <code>&quot;state&quot;</code>, но в привязчике манипулируем ссылками внутри этого элемента.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>			.bindNode(<span class="hljs-string">'route'</span>, <span class="hljs-string">'.filters'</span>, {
+            <div class="content"><div class='highlight'><pre>			.bindNode(<span class="hljs-string">'state'</span>, <span class="hljs-string">'.filters'</span>, {
 				setValue: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">v</span>) </span>{
 					$(<span class="hljs-keyword">this</span>).find(<span class="hljs-string">'a'</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 						<span class="hljs-keyword">var</span> $<span class="hljs-keyword">this</span> = $(<span class="hljs-keyword">this</span>);
-						$<span class="hljs-keyword">this</span>.toggleClass(<span class="hljs-string">'selected'</span>, $<span class="hljs-keyword">this</span>.attr(<span class="hljs-string">'href'</span>) === <span class="hljs-string">'#/'</span> + v);
+						$<span class="hljs-keyword">this</span>.toggleClass(<span class="hljs-string">'selected'</span>, $<span class="hljs-keyword">this</span>.attr(<span class="hljs-string">'href'</span>) === <span class="hljs-string">'#!/'</span> + v);
 					});
 				}
 			});
@@ -258,11 +238,11 @@
         </li>
         
         
-        <li id="section-12">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>Добавляем обработчик события на изменение свойства <code>&quot;JSON&quot;</code>, которое хранит представление списка todo в виде JSON строки. Для того, чтоб реже обращаться к жесткому диску (который работает медленнее, чем оперативная память), используется метод <a href="http://ru.matreshka.io/#Matreshka-onDebounce">onDebounce</a>, который предотвращает многократный вызов обработчика за промежуток времени.</p>
 
@@ -275,11 +255,11 @@
         </li>
         
         
-        <li id="section-13">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Если в инпуте, привязанном к свойству <code>&quot;newTodo&quot;</code> нажата клавиша  <code>Enter</code> и если очищенное от пробелов значение этого свойства не является пустой строкой, добавляем новый пункт todo, используя метод <code>push</code>).</p>
 
@@ -301,11 +281,11 @@
         </li>
         
         
-        <li id="section-14">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Когда меняется значение свойства <code>allCompleted</code>, мы меняем <code>&quot;completed&quot;</code> для всех todo на то же самое значение. Флаг <code>&quot;silent&quot;</code> говорит о том, что событие <code>&quot;change:completed&quot;</code> не должно быть вызвано.</p>
 
@@ -324,11 +304,11 @@
         </li>
         
         
-        <li id="section-15">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>Клик мышью по элементу <code>&#39;#clear-completed&#39;</code> удаляет все выволненные пункты, используя метод <a href="http://ru.matreshka.io/#Matreshka.Array-pull">pull</a>.</p>
 
@@ -345,11 +325,11 @@
         </li>
         
         
-        <li id="section-16">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>Следующий обработчик вызывается по двум событиям. Первое событие - <code>&quot;modify&quot;</code>, которое срабатывает, когда <code>MK.Array</code> меняется (когда элементы добавляются или удаляются). Второе - <code>*@change:completed</code> означает, что мы слушаем событие <code>&quot;change:completed&quot;</code> для каждого пункта todo. Получается, обработчик срабатывает, когда пункт добавлен или удален и когда у одного из пунктов меняется свойство <code>&quot;completed&quot;</code>. Код обработчика говорит сам за себя: <code>&quot;allCompleted&quot;</code> становится равным <code>true</code>, если каждый пункт выполнен и наоборот - <code>false</code>, когда какой-либо из пунктов не выполнен. Затем вычисляется значение свойства <code>&quot;completedLength&quot;</code>, которое содержит количество выполненных пунктов.</p>
 
@@ -370,11 +350,11 @@
         </li>
         
         
-        <li id="section-17">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>Если пункты добавлены или удалены или если свойство <code>&quot;completed&quot;</code> помеялось у какого-нибудь пункта или если изменилось значение свойства <code>&quot;allCompleted&quot;</code>, готовим представление нашего списка todo для того, чтоб затем поместить его в локальное хранилище (<code>localStorage</code>).</p>
 
@@ -387,13 +367,13 @@
         </li>
         
         
-        <li id="section-18">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>Следующие строки контролируют, как видимость пунктов списка дел контролируется <code>location.hash</code> (или свойства <code>&quot;route&quot;</code>). Эта часть может быть реализована несколькими способами. Здесь выбран способ добавления зависимостей одного свойства от других, используя метод  <a href="http://ru.matreshka.io/#Matreshka-linkProps">linkProps</a>. Что здесь происходит? Мы слушаем событие <code>&quot;addone&quot;</code>, срабатывающее, когда новый пункт добавляется в список дел. Обработчик события получает объект (<code>evt</code>) в качестве аргумента, который содержит свойство <code>&quot;added&quot;</code>, являющеесяя добавленным пунктом. Мы добавляем зависимость свойства <code>&quot;visible&quot;</code> для добавленного пункта от <code>todos.route</code> и от собственного свойства <code>&quot;completed&quot;</code>.</p>
+              <p>Следующие строки контролируют, как видимость пунктов списка дел контролируется <code>location.hash</code> (или свойства <code>&quot;state&quot;</code>). Эта часть может быть реализована несколькими способами. Здесь выбран способ добавления зависимостей одного свойства от других, используя метод  <a href="http://ru.matreshka.io/#Matreshka-linkProps">linkProps</a>. Что здесь происходит? Мы слушаем событие <code>&quot;addone&quot;</code>, срабатывающее, когда новый пункт добавляется в список дел. Обработчик события получает объект (<code>evt</code>) в качестве аргумента, который содержит свойство <code>&quot;added&quot;</code>, являющеесяя добавленным пунктом. Мы добавляем зависимость свойства <code>&quot;visible&quot;</code> для добавленного пункта от <code>todos.state</code> и от собственного свойства <code>&quot;completed&quot;</code>.</p>
 
             </div>
             
@@ -402,9 +382,9 @@
 
 				todo.linkProps(<span class="hljs-string">'visible'</span>, [
 					todo, <span class="hljs-string">'completed'</span>,
-					<span class="hljs-keyword">this</span>, <span class="hljs-string">'route'</span>
-				], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">completed, route</span>) </span>{
-					<span class="hljs-keyword">return</span> !route || route === <span class="hljs-string">'completed'</span> &amp;&amp; completed || route === <span class="hljs-string">'active'</span> &amp;&amp; !completed;
+					<span class="hljs-keyword">this</span>, <span class="hljs-string">'state'</span>
+				], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">completed, state</span>) </span>{
+					<span class="hljs-keyword">return</span> !state || state === <span class="hljs-string">'completed'</span> &amp;&amp; completed || state === <span class="hljs-string">'active'</span> &amp;&amp; !completed;
 				});
 			});
 	}
