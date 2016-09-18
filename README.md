@@ -1,4 +1,4 @@
-# Matreshka.js TodoMVC с комментариями на русском
+# Matreshka.js TodoMVC с комментариями на русском [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 [In English](https://github.com/matreshkajs/matreshka_todomvc)
 
